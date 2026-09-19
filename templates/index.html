@@ -44,12 +44,31 @@
     </head>
     <body>
         <div class="page">
-            <h1 >Youtube Downloader</h1>
+            <h1 >Youtube Downloader -- {{ title }}</h1>
             <div class="input-container">
                 <label for="url">Enter URL:</label>
                 <input type="text" id="url" name="url" required>
                 <button class="download_button">Download</button>
             </div>
+
+            <p id="response-text"></p>
+
         </div>
+        <script>
+            const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+            const downloadButton = document.querySelector('.download_button');
+            const urlInput = document.getElementById('url')
+            const responseText = document.getElementById('response-text');
+
+            downloadButton.addEventListener('click', async function() {
+                const url = urlInput.value;
+                responseText.textContent = 'Downloading...';
+                
+                await sleep(3000); // Wait for 3 seconds
+
+                responseText.textContent = 'Download complete!';
+            });
+
+        </script>
     </body>
 </html>
