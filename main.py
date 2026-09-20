@@ -11,7 +11,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 def read_root(request: Request):
-    """read_root"""
+    """home page"""
     return  templates.TemplateResponse(
         request=request, name="index.html", context={"title": "home_page"}
     )
