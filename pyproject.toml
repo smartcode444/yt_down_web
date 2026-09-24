@@ -1,0 +1,11 @@
+[project]
+name = "yt-down-web"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi[standard]>=0.141.1",
+    "requests>=2.34.2",
+    "yt-dlp>=2026.8.19",
+]

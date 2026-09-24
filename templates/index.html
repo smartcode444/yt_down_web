@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <script src="static/script.js" defer></script>
         <style>
             body {
                 margin: 0;
@@ -28,7 +29,7 @@
                 margin-bottom: 10px;
             }
 
-            .download_button {
+            .fetch_button {
                 font-size: 16px;
                 padding: 10px 20px;
                 background-color: #4CAF50;
@@ -37,7 +38,7 @@
                 cursor: pointer;
             }
             
-            .download_button:hover {
+            .fetch_button:hover {
                 background-color: #0f3611;
             }
         </style>
@@ -46,15 +47,16 @@
         <div class="page">
             <h1 >Youtube Downloader -- {{ title }}</h1>
             <div class="input-container">
-                <label for="url">Enter URL:</label>
+                <label for="url">URL:</label>
                 <input type="text" id="url" name="url" required>
-                <button class="download_button">Download</button>
+                <button class="fetch_button">Enter</button>
             </div>
 
+            <p style="color: red">{{ error }}</p>
             <p id="response-text"></p>
 
         </div>
-        <script>
+        <!-- <script>
             const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
             const downloadButton = document.querySelector('.download_button');
             const urlInput = document.getElementById('url')
@@ -69,6 +71,6 @@
                 responseText.textContent = 'Download complete!';
             });
 
-        </script>
+        </script> -->
     </body>
 </html>
