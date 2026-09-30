@@ -23,10 +23,10 @@ class VideoHandler:
             socket.setdefaulttimeout(8)
             ydl_opts = {'quiet': True, 'no_warnings': True}
             with YoutubeDL(ydl_opts) as ydl:
-                metadata = ydl.extract_info(url, download=False)
+                self.metadata = ydl.extract_info(url, download=False)
                 self.title = self.metadata.get('title', 'Unknown Video')
                 self.url = url
-                return self._parse_formats(metadata)
+                return self._parse_formats(self.metadata)
             
         # except (socket.timeout, utils.DownloadError):
             # print("Error: metadata extraction timed out!")

@@ -1,6 +1,12 @@
 import re
-from handler import VideoHandler
-from thumbnail import fetch_thumbnail_response
+
+try:
+    from .handler import VideoHandler
+    from .thumbnail import fetch_thumbnail_response
+except ImportError:  # pragma: no cover - allows running the module directly
+    from handler import VideoHandler
+    from thumbnail import fetch_thumbnail_response
+
 from fastapi import FastAPI, Request, HTTPException, Query
 from fastapi.responses import JSONResponse
 # from fastapi.responses import FileResponse
@@ -14,7 +20,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 
-class App:
+class Backend:
     def __init__(self):
         self.handler = VideoHandler()
         self.video_data = None
@@ -35,11 +41,11 @@ class App:
     def fetch_data(self, url: str):
         """Fetching video metadata"""
         self.video_data = self.handler.fetch_metadata(url)
-        self.video_id = self.handler.fetch_metadata(url)
+        self.video_id = self.handler.metadata.get('id')
         self.video_thumbnail = fetch_thumbnail_response(self.video_id)
         self.video_title = self.handler.title
 
-app = App()
+backend = Backend()
 
 @app.get("/")
 def read_root(request: Request):
@@ -54,19 +60,16 @@ def fetch_video(request:Request, url: str = Query(...)):
     if not url:
         return JSONResponse({"ok": False, "error": "URL is required"}, status_code=400)
 
-    if not app.validate_url(url):
+    if not backend.validate_url(url):
         return JSONResponse({"ok": False, "error": "Invalid Youtube URL"}, status_code=400)
 
-    app.fetch_data(url)
+    backend.fetch_data(url)
 
     return {
         "ok": True,
-        "title": app.video_title,
-        "thumbnail": app.video_thumbnail
+        "title": backend.video_title,
+        "thumbnail": backend.video_thumbnail or ""
     }
-
-
-
 
 
 
